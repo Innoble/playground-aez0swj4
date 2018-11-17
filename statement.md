@@ -32,7 +32,7 @@ There are various ways to set up your simulation and Smitsimax-search. I current
         highestscore[4]
         scaleparameter[4]
         
-        void Reset()   //To reset the sim after search
+        void Reset()   /*To reset the sim after search*/
         
         void Search() //The important bit, the actual search
         
