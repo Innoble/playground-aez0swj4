@@ -32,13 +32,13 @@ There are various ways to set up your simulation and Smitsimax-search. I current
         highestscore[4]
         scaleparameter[4]
         
-        void Reset()   To reset the sim after search
+        void Reset()   //To reset the sim after search
         
-        void Search() The important bit, the actual search
+        void Search() //The important bit, the actual search
         
-        void Play() a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
+        void Play() //a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
         
-        void BackPropagate() 
+        void BackPropagate() // each tree has the score result backpropagated along the branch of the tree.
         
     }
     
