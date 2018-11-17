@@ -11,6 +11,38 @@ Smitsimax has some things in common with minimax, but is also different. Both se
 Let's look at this step by step in pseudo code, written for CSB:
 
 
+At the start of a turn you get all the information you need as input. You have your Pod class with information such as:
+
+class Pod
+{
+    position
+    velocity
+    shield 
+    ...
+}
+
+You need two instances of each pod. One is the base instance you get as you start the turn. You need to keep this information so that you can reset to it after every search-run. The other is the evolving pod that changes during the search.
+
+There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods that looks somewhat like this:
+
+    static class Sim
+    {
+        Node[4] current 
+        lowestscore[4]
+        highestscore[4]
+        scaleparameter[4]
+        
+        void Reset()   To reset the sim after search
+        
+        void Search() The important bit, the actual search
+        
+        void Play() a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
+        
+        void BackPropagate() 
+        
+    }
+    
+    
 
 
 
