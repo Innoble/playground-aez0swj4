@@ -8,11 +8,12 @@ Recently I have been working on a bot for  [Coders Strike Back](https://www.codi
 are being used in CSB are a variant of Genetic Algorithms or Minimax. This article is meant to answer the questions I've been asked
 about this surprisingly succesful search.
 
-I first thought of this search during the Code of Kutulu contest, where I placed 4th. Kutulu is a 4-player simultaneous game in which it
-is very hard to write a good search, because of the exploding searchspace. Smitsimax helped me solve this problem. I was inspired by my
-work to code an ultimate tic tac toe (UTTT) bot using MCTS. This is where my use of the UCB formula comes from. *Disclaimer: I am not
-completely sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax" , more as joke than
-anything else. If anyone is more versed in search algorithms and knows its true name, do let me know.*
+I first thought of this search during the [Code of Kutulu](https://www.codingame.com/multiplayer/bot-programming/code-of-kutulu) contest,
+where I placed 4th. Kutulu is a 4-player simultaneous game in which it is very hard to write a good search, because of the exploding
+searchspace. Smitsimax helped me solve this problem. I was inspired by my work to code an ultimate tic tac toe (UTTT) bot using MCTS. This
+is where my use of the UCB formula comes from. *Disclaimer: I am not completely sure if my search doesn't already exist in some form, but
+if it doesn't, I have coined the name "Smitsimax" , more as joke than anything else. If anyone is more versed in search algorithms and
+knows its true name, do let me know.*
 
 CSB is a two player zero sum game where both players have two racing pods. The zero-sum nature makes  minimax a natural 
 choice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
