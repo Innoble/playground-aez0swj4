@@ -25,7 +25,7 @@ You need two instances of each pod. One is the base instance you get as you star
 
 There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods that looks somewhat like this:
 
-    ''' C# static class Sim
+    ``` C# static class Sim
     {
         Pods[4]  // all 4 pods that will be simulated
         Node[4] current  // 4 current nodes, one for each pod. You start with root nodes.
@@ -41,7 +41,7 @@ There are various ways to set up your simulation and Smitsimax-search. I current
         
         void BackPropagate() // each tree has the score result backpropagated along the branch of the tree.
     }
-    '''
+    ```
     
     The tree consists of nodes and each node in the tree needs the following things:
     
