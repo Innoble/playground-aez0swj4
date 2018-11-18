@@ -53,8 +53,7 @@ class Pod
 You need two instances of each pod. One is the base instance you get as you update using the turn-input. You need to keep this information
 so that you can reset to it after every search-run. The other is the evolving pod that changes during the search. 
 
-There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods
-that looks somewhat like this:
+There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class that looks somewhat like this:
 
 ```C#
 static class Sim
