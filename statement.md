@@ -14,7 +14,7 @@ completely sure if my search doesn't already exist in some form, but if it doesn
 anything else. If anyone is more versed in search algorithms and knows its true name, do let me know.*
 
 CSB is a two player zero sum game where both players have two racing pods. the zero-sum nature makes something like minimax a natural 
-hoice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
+choice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
 after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other
 player did the turn (ply) before. To solve the problem of simultaneous gameplay, you can make the choice to use the "paranoid" option. This
 means you assume the other player is going to know what you did and chooses the best possible counter. This is an assumption that can be
