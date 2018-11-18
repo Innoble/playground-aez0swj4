@@ -34,7 +34,7 @@ backpropagated along the respective trees of each pod. The first time this is do
 However, the next time the same node is selected by a pod, the other pods may select different nodes, leading to a different gamestate. The
 differences in possible gamestates will be larger for greater depth levels. If the search is able to converge, this is not a problem. The
 (best) branches to which each tree converges should, together, correspond to a single gamestate per node and lead to good opponent
-prediction and a good choice of move for the pods. 
+prediction and a good choice of move for the players pods. 
 
 Let's look at this step by step in pseudo code, written for CSB:
 
