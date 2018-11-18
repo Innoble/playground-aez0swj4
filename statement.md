@@ -13,13 +13,13 @@ Let's look at this step by step in pseudo code, written for CSB:
 
 At the start of a turn you get all the information you need as input. You have your Pod class with information such as:
 
-'class Pod
-{
-    position
-    velocity
-    shield 
-    ...
-}'
+    class Pod
+    {
+        position
+        velocity
+        shield 
+        ...
+    }
 
 You need two instances of each pod. One is the base instance you get as you start the turn. You need to keep this information so that you can reset to it after every search-run. The other is the evolving pod that changes during the search.
 
