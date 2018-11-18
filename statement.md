@@ -16,10 +16,10 @@ anything else. If anyone is more versed in search algorithms and knows its true 
 CSB is a two player zero sum game where both players have two racing pods. The zero-sum nature makes  minimax a natural 
 choice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
 after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other
-player did the turn (ply) before. To solve the problem of simultaneous gameplay, you can make the choice to use the "paranoid" option. This
+player did the turn (ply) before. To solve the problem of simultaneous gameplay, you can use the "paranoid" option. This
 means you assume the other player is going to know what you did and chooses the best possible counter. This is an assumption that can be
 good or bad, depending on the state of the game and the possible strategies you can use. Another possible option is to calculate all
-possible combinations of moves. If one player has 6 possible moves and the other does as well, then there are a total of 36 possible
+possible combinations of moves. If one player has 6 possible moves and the other player does as well, then there are a total of 36 possible
 combinations. You can then average the result, maximize your worst result or minimize your opponents best result for each of your moves.
 What ends up being the most succesful approach is a matter of trial and error.
 
