@@ -59,80 +59,61 @@ The tree consists of nodes and each node in the tree needs the following things:
         int visits // the number of times this node has been visited
         int angle // this is part of the move, a CSB bot needs an angle
         int thrust // a CSB bot needs a thrust
-        bool shield // whether or not the shield is activated. This could be part of the thrust variable (set to -1 or something)
-    
+        bool shield // whether or not the shield is activated. This could be part of the thrust variable (set to -1)
     }
  
 
 The Search method looks like this:
 ```C#
 void Search()
+{
+    CreateRootNodes() // create 4 nodes, one for each tree. These are also the "current" nodes of the sim.
+
+    while (we still have calculation time left)
     {
-        CreateRootNodes() // create 4 nodes, one for each tree. These are also the "current" nodes of the sim.
+        Reset() // reset the sim using the pod instances you obtained during the update
+        int depth = 0;
 
-        while (we still have calculation time left)
+        while (depth < SIMULATION_DEPTH)
         {
-            Reset() // reset the sim using the pod instances you obtained during the update
-            int depth = 0;
-
-            while (depth < SIMULATION_DEPTH)
-            {
-                for (each pod, 4 times total)
-                {
-                    Node node = current[i];
-
-                    if (node.visits == 1)
-                        node.MakeChildren() // give the node children if it doesnt have them, all possible moves you want to allow
-
-                    Node child = node.Select() // select a node that you want to use for the sim. At first it is best to random a few times. I currently random 10 times. After this I use the UCB formula to select a child. 
-
-                    child.visits++;
-
-                    current[i] = child; // the child becomes the current node
-
-                    pod.ApplyMove // do the stuff the nodes tell you to do (rotate, accelerate, shield etc.)
-                }
-
-                Play(); // Simulate what actually happens, including movement and collisions
-                depth++;
-            }
-            
-            float[4] score = GetScore(); // get a score for each pod when the simulation depth is reach
-
             for (each pod, 4 times total)
             {
-                update the lowest score, highest score and scaleparameter for this pod. 
+                Node node = current[i];
+
+                if (node.visits == 1)
+                    node.MakeChildren() // give the node children if it doesnt have them, each with a possible move
+
+                Node child = node.Select() // select a node that you want to use for the sim. 
+                //At first it is best to select randomly a few times. 
+                //I currently random 10 times. After this I use the UCB formula to select a child. 
+
+                child.visits++; // increment the child visitcount
+
+                current[i] = child; // the child becomes the current node
+
+                pod.ApplyMove // do the stuff the nodes tell you to do (rotate, accelerate, shield etc.)
             }
 
-            Backpropagate() // We go up the tree back to the root node, adding the score to each node. We do this for each pod (4x)
+            Play(); // Simulate what actually happens, including movement and collisions
+            depth++;
+        }
+        
+        float[4] score = GetScore(); // get a score for each pod when the simulation depth is reached. The way the score is calculated is not that different from what it would be in minimax or GA or any other search method.
+
+        for (each pod, 4 times total)
+        {
+            update the lowest score, highest score and scaleparameter for this pod. 
         }
 
-    }
-```
-    
-    
-
-
-
-
-```C# runnable
-// { autofold
-using System;
-
-class Hello 
-{
-    static void Main() 
-    {
-// }
-
-Console.WriteLine("Hello World!");
-
-// { autofold
+        Backpropagate() // We go up the tree back to the root node, adding the score to each node. We do this for each pod (4x)
     }
 }
-// }
+```
+    
+The UCB formula that is used on child selection looks like this:
+
+```C#
+float ucb = (score / (visits_of_child * scaleParameter)) + Sqrt(Log(visits of parent)) * (1/Sqrt(visits_of_child);
 ```
 
-# Advanced usage
 
-If you want a more complex example (external libraries, viewers...), use the [Advanced C# template](https://tech.io/select-repo/386)
