@@ -18,10 +18,11 @@ choice as a search algorithm. The main problem is the simultaneous nature of the
 after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other
 player did the turn (ply) before. To solve the problem of simultaneous gameplay, you can use the "paranoid" option. This
 means you assume the other player is going to know what you did and chooses the best possible counter. This is an assumption that can be
-good or bad, depending on the state of the game and the possible strategies you can use. Another possible option is to calculate all
-possible combinations of moves. If one player has 6 possible moves and the other player does as well, then there are a total of 36 possible
-combinations. You can then average the result, maximize your worst result or minimize your opponents best result for each of your moves.
-What ends up being the most succesful approach is a matter of trial and error.
+good or bad, depending on the state of the game and the possible strategies you can use. A possible way to deal with this is to calculate
+all possible combinations of moves. If one player has 6 possible moves and the other player does as well, then there are a total of 36
+possible combinations. You can then average the result, maximize your worst result or minimize your opponents best result for each of your 
+moves. What ends up being the most succesful approach is a matter of trial and error. The search space can quickly get out of
+hand if you don't prune enough.
 
 Smitsimax has a few things in common with minimax, but is also different. Both search algorithms have a tree of possible moves. Each move
 has a node and each node has children that correspond with the moves on the next turn. In minimax there is only one tree. The tree has
