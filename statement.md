@@ -29,7 +29,9 @@ hand if you don't prune enough.
 Smitsimax has a few things in common with minimax, but is also different. Both search algorithms have a tree of possible moves. Each move
 has a node and each node has children that correspond with the moves on the next turn. In minimax there is only one tree. The tree has
 moves by both players in it and each node corresponds to a single absolute gamestate. When you get to this specific node, you know exactly
-what the game looks like. If we consider CSB specifically, Smitsimax has a separate tree for each pod (meaning two trees per player). Each
+what the game looks like. 
+
+If we consider CSB specifically, Smitsimax has a separate tree for each pod (meaning two trees per player). Each
 node on tree does not directly correspond to a gamestate. The trees are completely independent at first glance. During each search
 iteration, moves are selected on each tree, randomly at first and by Upper Bound Confidence formula later. Each turn is simulated with the
 selected moves. When a predetermined depth level is reached, an evaluation is done for each player (pod) in the game and the result is
@@ -38,6 +40,7 @@ However, the next time the same node is selected by a pod, the other pods may se
 differences in possible gamestates will be larger for greater depth levels. If the search is able to converge, this is not a problem. The
 (best) branches to which each tree converges should, together, correspond to a single gamestate per node and lead to good opponent
 prediction and a good choice of move for the players pods. 
+
 
 Let's look at this step by step in pseudo code, written for CSB:
 
@@ -175,6 +178,22 @@ using random moves, or too few moves in the last few depth levels. However, beca
 searchspace, like you would with (non-pruned) minimax. The exploration and expansion will focus on interesting parts of the tree and you
 can get much deeper than you would expect. My CSB bot currently uses roughly 60k simulations per turn where my rivals in the top 10 use
 over a million for the same depth of search. I can only imagine how well this bot will perform once it is properly optimized. 
+
+## Similarities with Monte Carlo Tree Search (MCTS)
+
+Smitsimax shares some features with MCTS. One of them is the use of statistics to guide the search. The other is the use of a selection and
+backpropagation phase. There are also some clear differences:
+
+1) MCTS has a single tree and a single gamestate per node. It shares this feature with minimax. Smitsimax has a tree for every agent. A
+node on this tree can correspond to many possible gamestates with different likelyhoods.
+
+2) Smitsimax only uses random moves to avoid "resonance" of bad moves on the first few visits to a node. It is possible all pods start
+doing bad moves at the beginning of the search. Because bad moves can seem good when compared to other bad moves, the tendency to explore
+disappears and in the worst case, the search will converge on bad moves for all pods. Random selection at the start helps avoid this
+problem. Smitsimax does not use a random rollout.
+
+3) MCTS expands one node on every iteration of the search. Smitsimax expands all the way to the maximum depth on every iteration. This is
+necessary because there is no random rollout apart from the first few times a node is visited.
 
 ## What are the advantages and limitations of Smitsimax?
 
