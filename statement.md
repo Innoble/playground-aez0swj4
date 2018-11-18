@@ -134,7 +134,8 @@ void Search()
             // the scale parameter is the difference between the highest and lowest score
         }
 
-        Backpropagate() // We go up the tree back to the root node, adding the score to each node. We do this for each pod (4x)
+        Backpropagate() 
+        // We go up the tree back to the root node, adding the score to each node we pass. We do this for each pod (4x)
     }
 }
 ```
