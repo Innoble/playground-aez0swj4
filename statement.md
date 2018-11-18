@@ -1,6 +1,6 @@
 # Smitsimax
 
-*This is a work in progress. I will add more information when I can*
+*This is a work in progress. I will add more information when I can.*
 
 Recently I have been working on a bot for Coders Strike Back (CSB), a bot-arena on codingame. I reached top 10 in about 20 hours of coding
 with a bot that still has various problems, such as: timeouts, missing features and a suboptimal language choice (C#). The only thing this
