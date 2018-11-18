@@ -149,7 +149,7 @@ void Search()
 The UCB formula that is used on child selection looks like this:
 
 ```C#
-float ucb = (score / (visits_of_child * scaleParameter)) + Sqrt(Log(visits of parent)) * (1/Sqrt(visits_of_child);
+float ucb = (score / (visits_of_child * scale_param)) + exploration_param * Sqrt(Log(visits of parent)) * (1/Sqrt(visits_of_child);
 ```
 
 Score divided by visits is the average score of the node. The scale parameter normalizes this score in a range between 0 and 1. The
