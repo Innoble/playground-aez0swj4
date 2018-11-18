@@ -9,9 +9,9 @@ article is mostly meant to answer the many questions I've been asked about this 
 
 I first thought of this search during the Code of Kutulu contest, where I placed 4th. Kutulu is a 4-player simultaneous game in which it
 is very hard to write a good search, because of the exploding searchspace. Smitsimax helped me solve this problem. I was inspired by my
-work to code an ultimate tic tac toe bot using MCTS. This is where my use of the UCB formula comes from. *Disclaimer: I am not completely
-sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax" , more as joke than anything
-else. If anyone is more versed in search algorithms and knows its true name, do let me know.*
+work to code an ultimate tic tac toe (UTTT) bot using MCTS. This is where my use of the UCB formula comes from. *Disclaimer: I am not
+completely sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax" , more as joke than
+anything else. If anyone is more versed in search algorithms and knows its true name, do let me know.*
 
 CSB is a two player zero sum game. This makes something like minimax a natural choice as a search algorithm. The main problem is the
 simultaneous nature of the game. Both players decide what to do simultaneously and after this, the turn is calculated. The basic version of
