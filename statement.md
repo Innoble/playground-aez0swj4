@@ -13,26 +13,28 @@ work to code an ultimate tic tac toe (UTTT) bot using MCTS. This is where my use
 completely sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax" , more as joke than
 anything else. If anyone is more versed in search algorithms and knows its true name, do let me know.*
 
-CSB is a two player zero sum game. This makes something like minimax a natural choice as a search algorithm. The main problem is the
-simultaneous nature of the game. Both players decide what to do simultaneously and after this, the turn is calculated. The basic version of
-minimax requires players to move one after the other, knowing what the other player did the turn (ply) before. To solve the problem of
-simultaneous gameplay, you can make the choice to use the "paranoid" option. This means you assume the other player is going to know what
-you did and chooses the best possible counter. This is an assumption that can be good or bad, depending on the state of the game and the
-possible strategies you can use. Another possible option is to calculate all possible combinations of moves. If one player has 6 possible
-moves and the other does as well, then there are a total of 36 possible combinations. You can then average the result, minimize the worst
-result or maximize the best result for each of your moves. All of these choices may have good or bad results depending on many factors.
+CSB is a two player zero sum game where both players have two racing pods. the zero-sum nature makes something like minimax a natural 
+hoice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
+after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other
+player did the turn (ply) before. To solve the problem of simultaneous gameplay, you can make the choice to use the "paranoid" option. This
+means you assume the other player is going to know what you did and chooses the best possible counter. This is an assumption that can be
+good or bad, depending on the state of the game and the possible strategies you can use. Another possible option is to calculate all
+possible combinations of moves. If one player has 6 possible moves and the other does as well, then there are a total of 36 possible
+combinations. You can then average the result, maximize your worst result or minimize your opponents best result for each of your moves.
+What ends up being the most succesful approach is a matter of trial and error.
 
 Smitsimax has a few things in common with minimax, but is also different. Both search algorithms have a tree of possible moves. Each move
 has a node and each node has children that correspond with the moves on the next turn. In minimax there is only one tree. The tree has
 moves by both players in it and each node corresponds to a single absolute gamestate. When you get to this specific node, you know exactly
-what the game looks like. Smitsimax has a separate tree for each player (or each pod, as in CSB, meaning two trees per player) and each
-node on tree does not directly correspond to a gamestate. At first glance the trees are completely separate. During the search, moves are
-selected on each tree, randomly at first and by Upper Bound Confidence formula later. Each turn is simulated with the selected moves. When
-sufficient depth is reached, an evaluation is done for each player (pod) in the game and the result is backpropagated along the
-respective trees. The first time this is done, every node does correspond to a single gamestate. However, the next time the same node is
-selected by a player, the other pods may select different nodes, leading to a different gamestate. The differences in possible gamestates
-will be larger for greater depth levels. If the search is able to converge, this is not a problem. The (best) branches to which each tree
-converges should, together, correspond to a single gamestate per node. 
+what the game looks like. If we consider CSB specifically, Smitsimax has a separate tree for each pod (meaning two trees per player).Each
+node on tree does not directly correspond to a gamestate. The trees are completely independent at first glance. During each search
+iteration, moves are selected on each tree, randomly at first and by Upper Bound Confidence formula later. Each turn is simulated with the
+selected moves. When a predetermined depth level is reached, an evaluation is done for each player (pod) in the game and the result is
+backpropagated along the respective trees of each pod. The first time this is done, every node does correspond to a single gamestate.
+However, the next time the same node is selected by a pod, the other pods may select different nodes, leading to a different gamestate. The
+differences in possible gamestates will be larger for greater depth levels. If the search is able to converge, this is not a problem. The
+(best) branches to which each tree converges should, together, correspond to a single gamestate per node and lead to good opponent
+prediction and a good choice of move for the pods. 
 
 Let's look at this step by step in pseudo code, written for CSB:
 
