@@ -32,28 +32,19 @@ that looks somewhat like this:
 ```C#
 static class Sim
 {
-Pods[4]  
-// all 4 pods that will be simulated
-    Node[4] current  
-    // 4 current nodes, one for each pod. You start with root nodes.
-    float[4] lowestscore 
-    // the lowest score earned by the tree, one for each pod.
-    float[4] highestscore 
-    // the highest score earned by the tree, one for each pod.
-    float[4] scaleparameter  
-    // the scaleparameter calculated by subtracting the lowest score from the highest. This is needed for the UCB formula.
+    Pods[4]  // all 4 pods that will be simulated
+    Node[4] current  // 4 current nodes, one for each pod. You start with root nodes.
+    float[4] lowestscore // the lowest score earned by the tree, one for each pod.
+    float[4] highestscore // the highest score earned by the tree, one for each pod.
+    float[4] scaleparameter  // the scaleparameter calculated by subtracting the lowest score from the highest. This is needed for the UCB formula.
     
-    void Reset()   
-    // To reset the sim after search
+    void Reset() // To reset the sim after search
     
-    void Search() 
-    // The important bit, the actual search
+    void Search() // The important bit, the actual search
     
-    void Play() 
-    // a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
+    void Play()  // a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
     
-    void BackPropagate() 
-    // each tree has the score result backpropagated along the branch of the tree.
+    void BackPropagate()  // each tree has the score result backpropagated along the branch of the tree.
 }
 ```
     
