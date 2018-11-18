@@ -152,8 +152,9 @@ The UCB formula that is used on child selection looks like this:
 float ucb = (score / (visits_of_child * scale_param)) + exploration_param * Sqrt(Log(visits of parent)) * (1/Sqrt(visits_of_child);
 ```
 
-Score divided by visits is the average score of the node. The scale parameter normalizes this score in a range between 0 and 1. The
-other term in the formula is identical to UCB as it would be used in MCTS (for example).
+Score divided by visits is the average score of the node. The scale parameter normalizes the first term of this score in a range between 0
+and 1. The other term in the formula is identical to UCB as it would be used in MCTS (for example). The exploration parameter controls how
+often the search will try moves with low score and low number of visits.
 
 ## Why does this work at all?
 
