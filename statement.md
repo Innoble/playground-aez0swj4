@@ -162,9 +162,9 @@ CSB bot currently uses roughly 60k simulations per turn where my rivals in the t
 can only  imagine how well this bot will perform once it is properly optimized. 
 
 
-What are the advantages and limitations of this approach?
+## What are the advantages and limitations of this approach?
 
-Advantages
+### Advantages
 
 -Maximum quality opponent prediction. The opponent prediction has the same quality as your own search, since everything is symmetric
 between you and your opponent. Genetic algorithms don't share this feature and minimax might be less effective at this.
@@ -180,7 +180,7 @@ cooperate.
 achieve it. The possible moves are decided when creating children on the nodes and if done right, will be selected to achieve the best
 score. If you have some experience using this search, you can quickly code a usable bot.
 
-Limitations
+### Limitations
 
 -Because gamestates that correspond to a node are not uniquely determined (the opponent may do different things) this search might not be
 possible for many types of games. For example, if a game allows 4 types of moves: A, B, C and D and if in some situations caused by the
