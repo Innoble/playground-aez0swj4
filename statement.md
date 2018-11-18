@@ -203,6 +203,6 @@ for Code of Kutulu. In that game you always know which moves are legal, no matte
 
 + It is hard to use heuristics as part of the search, because you really dont know what is going to happen until after you finish your sim
 and even then, things will be different on the next iteration. You lean heavily on the evaluation score telling your pods what is good and
-what is bad. For example, you can't have a node select its children to "steer away to the right if it sees a blocker to the left". In one
-particular iteration of the search, there could be a blocker to the left, but next time when you get to this node, there might not be. Only
-statistics and evaluation will help you.
+what is bad. For example, you can't have a runner-node select its children to "steer away to the right if it sees a blocker to the left".
+In one particular iteration of the search, there could be a blocker to the left, but next time when you get to this node, there might not
+be. 
