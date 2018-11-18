@@ -21,9 +21,11 @@ At the start of a turn you get all the information you need as input. You have y
         ...
     }
 
-You need two instances of each pod. One is the base instance you get as you start the turn. You need to keep this information so that you can reset to it after every search-run. The other is the evolving pod that changes during the search.
+You need two instances of each pod. One is the base instance you get as you start the turn. You need to keep this information so that you
+can reset to it after every search-run. The other is the evolving pod that changes during the search.
 
-There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods that looks somewhat like this:
+There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods
+that looks somewhat like this:
 
     static class Sim
     {
@@ -67,7 +69,8 @@ The tree consists of nodes and each node in the tree needs the following things:
     
     }
  
-    The Search method looks like this:
+
+The Search method looks like this:
     ```C#
     void Search()
         {
