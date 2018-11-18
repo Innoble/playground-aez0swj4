@@ -2,10 +2,11 @@
 
 *This is a work in progress. I will add more information when I can.*
 
-Recently I have been working on a bot for Coders Strike Back (CSB), a bot-arena on codingame. I reached top 10 in about 20 hours of coding
-with a bot that still has various problems, such as: timeouts, missing features and a suboptimal language choice (C#). The only thing this
-bot really has going for it is the search. Most searches that are being used in CSB are a variant of Genetic Algorithms or Minimax. This
-article is meant to answer the many questions I've been asked about this surprisingly succesful search.
+Recently I have been working on a bot for  [Coders Strike Back](https://www.codingame.com/multiplayer/bot-programming/coders-strike-back)
+(CSB), a bot-arena on codingame. I reached top 10 in about 20 hours of coding with a bot that still has various problems, such as: timeout
+, missing features and a suboptimal language choice (C#). The only thing thisbot really has going for it is the search. Most searches that
+are being used in CSB are a variant of Genetic Algorithms or Minimax. This article is meant to answer the questions I've been asked
+about this surprisingly succesful search.
 
 I first thought of this search during the Code of Kutulu contest, where I placed 4th. Kutulu is a 4-player simultaneous game in which it
 is very hard to write a good search, because of the exploding searchspace. Smitsimax helped me solve this problem. I was inspired by my
