@@ -154,9 +154,10 @@ other term in the formula is identical to UCB as it would be used in MCTS (for e
 The first few search iterations every pod will select nodes randomly, or just very badly. That means all evaluations are bad and
 untrustworthy. At some point, pods will start "discovering" better moves. This will lead to several things happening. 
 
-+ Your better moves will be evaluated as better moves, meaning they are more likely to be picked next time (by UCB formula)
-+ The parts of the evaluation that contain opponent-state information (travelled distance and such) will be scored more accurately
-+ Because of better opponent prediction, your own moves are scored more accurately. 
++ Your better moves will be evaluated as better moves, meaning they are more likely to be picked next time (by UCB formula).
++ The opponents pods will also be more likely to pick good moves during the search.
++ The parts of the evaluation that contain opponent-state information (travelled distance and such) will be scored more accurately.
++ Because of better opponent prediction, your own pods moves are scored more accurately. 
 
 This has great potential for convergence to an optimal series of moves for all pods. If player 1's runner pod has found a good path, player
 2's blocker pod will converge to moves that best counter this path, which will lead to player 1's runner adjusting its path, which means
@@ -180,7 +181,7 @@ over a million for the same depth of search. I can only imagine how well this bo
 between you and your opponent. Genetic algorithms don't share this feature and minimax might be less effective at this because of (for
 example) the paranoid prediction option.
 
-+ Quick convergence: Relatively few sims needed for a reliable result.
++ Quick convergence: Relatively few sims needed for a reliable result, or greater achievable depth levels.
 
 + Potential for emergent behavior. An example of this is seen in my CSB blocker-pod. I currently have it set to try to reduce the opponent
 travelled distance, but it also gets more score if my runner pod travels farther. This sometimes leads to my blocker using its shield to
@@ -203,4 +204,4 @@ for Code of Kutulu. In that game you always know which moves are legal, no matte
 and even then, things will be different on the next iteration. You lean heavily on the evaluation score telling your pods what is good and
 what is bad. For example, you can't have a node select its children to "steer away to the right if it sees a blocker to the left". In one
 particular iteration of the search, there could be a blocker to the left, but next time when you get to this node, there might not be. Only
-statistics and evaluation will help you here.
+statistics and evaluation will help you.
