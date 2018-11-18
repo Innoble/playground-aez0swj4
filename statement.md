@@ -153,9 +153,9 @@ other term in the formula is identical to UCB as it would be used in MCTS (for e
 The first few search iterations every pod will select nodes randomly, or just very badly. That means all evaluations are bad and
 untrustworthy. At some point, pods will start "discovering" better moves. This will lead to several things happening. 
 
-1) Your better moves will be evaluated as better moves, meaning they are more likely to be picked next time (by UCB formula)
-2) The parts of the evaluation that contain opponent-state information (travelled distance and such) will be scored more accurately
-3) Because of better opponent prediction, your own moves are scored more accurately. 
++ Your better moves will be evaluated as better moves, meaning they are more likely to be picked next time (by UCB formula)
++ The parts of the evaluation that contain opponent-state information (travelled distance and such) will be scored more accurately
++ Because of better opponent prediction, your own moves are scored more accurately. 
 
 This has great potential for convergence to an optimal series of moves for all pods. If player 1's runner pod has found a good path, player
 2's blocker pod will converge to moves that best counter this path, which will lead to player 1's runner adjusting its path, which means
@@ -175,30 +175,30 @@ over a million for the same depth of search. I can only imagine how well this bo
 
 ### Advantages
 
--Maximum quality opponent prediction. The opponent prediction has the same quality as your own search, since everything is symmetric
++ Maximum quality opponent prediction. The opponent prediction has the same quality as your own search, since everything is symmetric
 between you and your opponent. Genetic algorithms don't share this feature and minimax might be less effective at this because of (for
 example) the paranoid prediction option.
 
--Quick convergence: Relatively few sims needed for a reliable result.
++ Quick convergence: Relatively few sims needed for a reliable result.
 
--Potential for emergent behavior. An example of this is seen in my CSB blocker-pod. I currently have it set to try to reduce the opponent
++ Potential for emergent behavior. An example of this is seen in my CSB blocker-pod. I currently have it set to try to reduce the opponent
 travelled distance, but it also gets more score if my runner pod travels farther. This sometimes leads to my blocker using its shield to
 boost my runner ahead. My runner and blocker each have their own tree, but they share goals in the evaluation, which tends to make them
 cooperate. This is a strong feature of genetic algorithms that is also present in Smitsimax. 
 
--Few heuristics needed. In the evaluation you merely have to give "score" for what you want to achieve and you dont have to specify how to
++ Few heuristics needed. In the evaluation you merely have to give "score" for what you want to achieve and you dont have to specify how to
 achieve it. The possible moves are decided when creating children on the nodes and if done right, will be selected to achieve the highest
 score. If you have some experience using this type of search, you can quickly code a usable bot.
 
 ### Limitations
 
--Because gamestates that correspond to a node are not uniquely determined (the opponent may do different things on each iteration) this
++ Because gamestates that correspond to a node are not uniquely determined (the opponent may do different things on each iteration) this
 search might not be usable for many games. For example, if a game allows 4 types of moves: A, B, C and D and if in some
 situations caused by the opponent,  move C is illegal, then this search will not work. The allowed (legal) moves have to be independent of
 opponents choices. This is the case in CSB, as you can always thrust, steer and shield, no matter what the opponent does. The same is true
 for Code of Kutulu. In that game you always know which moves are legal, no matter what the opponent does. 
 
--It is hard to use heuristics as part of the search, because you really dont know what is going to happen until after you finish your sim
++ It is hard to use heuristics as part of the search, because you really dont know what is going to happen until after you finish your sim
 and even then, things will be different on the next iteration. You lean heavily on the evaluation score telling your pods what is good and
 what is bad. For example, you can't have a node select its children to "steer away to the right if it sees a blocker to the left". In one
 particular iteration of the search, there could be a blocker to the left, but next time when you get to this node, there might not be. Only
