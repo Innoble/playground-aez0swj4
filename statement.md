@@ -27,8 +27,8 @@ There are various ways to set up your simulation and Smitsimax-search. I current
 
     static class Sim
     {
-        Pods[4]  
-        // all 4 pods that will be simulated
+    Pods[4]  
+    // all 4 pods that will be simulated
         Node[4] current  
         // 4 current nodes, one for each pod. You start with root nodes.
         float[4] lowestscore 
