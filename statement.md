@@ -124,8 +124,9 @@ void Search()
             depth++;
         }
         
-        float[4] score = GetScore(); // get a score for each pod when the simulation depth is reached. The way the score is calculated is
-        not that different from what it would be in minimax or GA or any other search method. There are many ways to do this.
+        float[4] score = GetScore(); 
+        // get a score for each pod when the simulation depth is reached. 
+        //The way the score is calculated is  not that different from what it would be in minimax or GA or any other search method. 
 
         for (each pod, 4 times total)
         {
