@@ -26,7 +26,7 @@ What ends up being the most succesful approach is a matter of trial and error.
 Smitsimax has a few things in common with minimax, but is also different. Both search algorithms have a tree of possible moves. Each move
 has a node and each node has children that correspond with the moves on the next turn. In minimax there is only one tree. The tree has
 moves by both players in it and each node corresponds to a single absolute gamestate. When you get to this specific node, you know exactly
-what the game looks like. If we consider CSB specifically, Smitsimax has a separate tree for each pod (meaning two trees per player).Each
+what the game looks like. If we consider CSB specifically, Smitsimax has a separate tree for each pod (meaning two trees per player). Each
 node on tree does not directly correspond to a gamestate. The trees are completely independent at first glance. During each search
 iteration, moves are selected on each tree, randomly at first and by Upper Bound Confidence formula later. Each turn is simulated with the
 selected moves. When a predetermined depth level is reached, an evaluation is done for each player (pod) in the game and the result is
