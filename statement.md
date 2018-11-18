@@ -13,7 +13,7 @@ work to code an ultimate tic tac toe (UTTT) bot using MCTS. This is where my use
 completely sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax" , more as joke than
 anything else. If anyone is more versed in search algorithms and knows its true name, do let me know.*
 
-CSB is a two player zero sum game where both players have two racing pods. the zero-sum nature makes something like minimax a natural 
+CSB is a two player zero sum game where both players have two racing pods. The zero-sum nature makes  minimax a natural 
 choice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
 after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other
 player did the turn (ply) before. To solve the problem of simultaneous gameplay, you can make the choice to use the "paranoid" option. This
