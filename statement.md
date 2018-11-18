@@ -101,7 +101,7 @@ void Search()
         Reset() // reset the sim using the pod instances you obtained during the update
         int depth = 0;
 
-        while (depth < SIMULATION_DEPTH)
+        while (depth < maximum_depth)
         {
             for (each pod, 4 times total)
             {
@@ -130,7 +130,8 @@ void Search()
 
         for (each pod, 4 times total)
         {
-            update the lowest score, highest score and scaleparameter for this pod. 
+            // update the lowest score, highest score and scaleparameter for this pod. 
+            // the scale parameter is the difference between the highest and lowest score
         }
 
         Backpropagate() // We go up the tree back to the root node, adding the score to each node. We do this for each pod (4x)
@@ -149,11 +150,11 @@ other term in the formula is identical to UCB as it would be used in MCTS (for e
 
 ## Why does this work at all?
 
-The first few search iterations every pod will select nodes randomly, or just very badly. That means all evaluations are relatively bad and
+The first few search iterations every pod will select nodes randomly, or just very badly. That means all evaluations are bad and
 untrustworthy. At some point, pods will start "discovering" better moves. This will lead to several things happening. 
 
 1) Your better moves will be evaluated as better moves, meaning they are more likely to be picked next time (by UCB formula)
-2) The parts of the evaluation that contain opponent state information (travelled distance and such) will be scored more accurately
+2) The parts of the evaluation that contain opponent-state information (travelled distance and such) will be scored more accurately
 3) Because of better opponent prediction, your own moves are scored more accurately. 
 
 This has great potential for convergence to an optimal series of moves for all pods. If player 1's runner pod has found a good path, player
@@ -162,21 +163,21 @@ the blocker will adjust again... etcetera.
 
 Since we use exploration and expansion by UCB, all moves are evaluated statistically. Your opponent is more likely to pick its best moves
 and you are more likely to pick yours. However, if some unlikely move is a great counter to the current best opponent path, the exploration
-part of your search will soon pick it up and multiple succesful iterations will cause the opponent to "rethink" its best path. As with
-every search, the more calculation time you have, the better this search will converge. With Smitsimax, you can freely select your
-simulation depth. If you set the depth too high, your search can never converge. You will end up using random moves, or too few moves in
-the last few depth levels. However, because of UCB, you will not need to explore the entire searchspace, like you would with (non-pruned)
-minimax. The exploration and expansion will focus on interesting parts of the tree and you can get much deeper than you would expect. My 
-CSB bot currently uses roughly 60k simulations per turn where my rivals in the top 10 use over a million for the same depth of search. I
-can only  imagine how well this bot will perform once it is properly optimized. 
-
+part of your search will soon (if the exploration parameter is not too small) pick it up and multiple succesful iterations will cause the
+opponent to "rethink" its best path. As with every search, the more calculation time you have, the better this search will converge. With
+Smitsimax, you can freely select your simulation depth. If you set the depth too high, your search can never converge. You will end up
+using random moves, or too few moves in the last few depth levels. However, because of UCB, you will not need to explore the entire
+searchspace, like you would with (non-pruned) minimax. The exploration and expansion will focus on interesting parts of the tree and you
+can get much deeper than you would expect. My CSB bot currently uses roughly 60k simulations per turn where my rivals in the top 10 use
+over a million for the same depth of search. I can only imagine how well this bot will perform once it is properly optimized. 
 
 ## What are the advantages and limitations of this approach?
 
 ### Advantages
 
 -Maximum quality opponent prediction. The opponent prediction has the same quality as your own search, since everything is symmetric
-between you and your opponent. Genetic algorithms don't share this feature and minimax might be less effective at this.
+between you and your opponent. Genetic algorithms don't share this feature and minimax might be less effective at this because of (for
+example) the paranoid prediction option.
 
 -Quick convergence: Relatively few sims needed for a reliable result.
 
@@ -187,18 +188,18 @@ cooperate. This is a strong feature of genetic algorithms that is also present i
 
 -Few heuristics needed. In the evaluation you merely have to give "score" for what you want to achieve and you dont have to specify how to
 achieve it. The possible moves are decided when creating children on the nodes and if done right, will be selected to achieve the highest
-score. If you have some experience using this search, you can quickly code a usable bot.
+score. If you have some experience using this type of search, you can quickly code a usable bot.
 
 ### Limitations
 
 -Because gamestates that correspond to a node are not uniquely determined (the opponent may do different things on each iteration) this
-search might not be usable for many types of games. For example, if a game allows 4 types of moves: A, B, C and D and if in some
-situations caused by the opponent,  move C is illegal, this search will not work. The allowed (legal) moves have to be independent of
+search might not be usable for many games. For example, if a game allows 4 types of moves: A, B, C and D and if in some
+situations caused by the opponent,  move C is illegal, then this search will not work. The allowed (legal) moves have to be independent of
 opponents choices. This is the case in CSB, as you can always thrust, steer and shield, no matter what the opponent does. The same is true
-for Code of Kutulu. In that game you always know which moves are legal, no matter what the opponent does (excluding the "yell" ability). 
+for Code of Kutulu. In that game you always know which moves are legal, no matter what the opponent does. 
 
 -It is hard to use heuristics as part of the search, because you really dont know what is going to happen until after you finish your sim
 and even then, things will be different on the next iteration. You lean heavily on the evaluation score telling your pods what is good and
-what is bad. For example, you can't have a node select its children to "steer away to the right if it sees a blocker on the left". In one
-particular iteration of the search, there could be a blocker on the left, but next time when you get to this node, there might not be. Only
+what is bad. For example, you can't have a node select its children to "steer away to the right if it sees a blocker to the left". In one
+particular iteration of the search, there could be a blocker to the left, but next time when you get to this node, there might not be. Only
 statistics and evaluation will help you here.
