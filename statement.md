@@ -2,11 +2,33 @@
 
 *This is a work in progress. I will add more information and hopefully some runnable code*
 
-Recently I have been working on a bot for Coders Strike Back (CSB), a bot-arena on codingame. I reached top 10 in about 20 hours of coding with a bot that still has various problems, such as: timeouts, missing features and a suboptimal language choice (C#). The only thing this bot really has going for it is the search. Most searches that are being used in CSB are a variant of Genetic Algorithms or Minimax. I am not completely sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax", more as joke than anything else. If anyone recognizes it and knows its true name, do let me know.
+Recently I have been working on a bot for Coders Strike Back (CSB), a bot-arena on codingame. I reached top 10 in about 20 hours of coding
+with a bot that still has various problems, such as: timeouts, missing features and a suboptimal language choice (C#). The only thing this
+bot really has going for it is the search. Most searches that are being used in CSB are a variant of Genetic Algorithms or Minimax. I am
+not completely sure if my search doesn't already exist in some form, but if it doesn't, I have coined the name "Smitsimax", more as joke
+than anything else. If anyone recognizes it and knows its true name, do let me know. I first thought of this search during the Code of
+Kutulu contest, where I placed 4th. 
 
-CSB is a two player zero sum game. This makes something like minimax a natural choice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other player did the turn (ply) before. To solve the problem of simultaneous gameplay, one can make the choice to use the "paranoid" option. This means you assume the other player is going to know what you did and makes the best possible counter. This is an assumption that can be good or bad, depending on the state of the game and the possible strategies you can use. Another possible option is to calculate all possible combinations of moves. If one player has 6 possible moves and the other does as well, then there are a total of 36 possible combinations. You can then average the result, minimize the worst result or maximize the best result for each of your moves. All of these choices may have good or bad results depending on many factors.
+CSB is a two player zero sum game. This makes something like minimax a natural choice as a search algorithm. The main problem is the
+simultaneous nature of the game. Both players decide what to do simultaneously and after this, the turn is calculated. The basic version of
+minimax requires players to move one after the other, knowing what the other player did the turn (ply) before. To solve the problem of
+simultaneous gameplay, one can make the choice to use the "paranoid" option. This means you assume the other player is going to know what
+you did and makes the best possible counter. This is an assumption that can be good or bad, depending on the state of the game and the
+possible strategies you can use. Another possible option is to calculate all possible combinations of moves. If one player has 6 possible
+moves and the other does as well, then there are a total of 36 possible combinations. You can then average the result, minimize the worst
+result or maximize the best result for each of your moves. All of these choices may have good or bad results depending on many factors.
 
-Smitsimax has some things in common with minimax, but is also different. Both search algorithms have a tree of possible moves. Each move has a node and each node has children that correspond with the moves on the next turn. In minimax there is only one tree. The tree has moves by both players in it and each node corresponds to a single absolute gamestate. When you get to this node, you know exactly what the game looks like. Smitsimax has a separate tree for each player (or each pod, as in CSB, meaning two trees per player) and each node on the tree does not directly correspond to a gamestate. At first glance the trees are completely separate. During the search, moves are selected on each tree, randomly at first and by Upper Bound Confidence formula later. Each turn is simulated with the selected moves. When sufficient depth is reached, an evaluation is done for each player (pod) in the game and the result is backpropagated along the respective trees. The first time this is done, every node does correspond to a single gamestate. However, the next time the same node is selected by a player, the other player(s) may select different nodes, leading to a different gamestate. The differences may be larger for greater depth levels. If the search is able to converge, this is not a problem. The (best) branches to which each tree converges should together, correspond to a single gamestate per node. 
+Smitsimax has a few things in common with minimax, but is also different. Both search algorithms have a tree of possible moves. Each move
+has a node and each node has children that correspond with the moves on the next turn. In minimax there is only one tree. The tree has
+moves by both players in it and each node corresponds to a single absolute gamestate. When you get to this node, you know exactly what the
+game looks like. Smitsimax has a separate tree for each player (or each pod, as in CSB, meaning two trees per player) and each node on 
+tree does not directly correspond to a gamestate. At first glance the trees are completely separate. During the search, moves are selected
+on each tree, randomly at first and by Upper Bound Confidence formula later. Each turn is simulated with the selected moves. When
+sufficient depth is reached, an evaluation is done for each player (pod) in the game and the result is backpropagated along the
+respectivetrees. The first time this is done, every node does correspond to a single gamestate. However, the next time the same node is
+selected by a player, the other player(s) may select different nodes, leading to a different gamestate. The differences may be larger for
+greater depth levels. If the search is able to converge, this is not a problem. The (best) branches to which each tree converges should
+together, correspond to a single gamestate per node. 
 
 Let's look at this step by step in pseudo code, written for CSB:
 
@@ -23,8 +45,8 @@ class Pod
 }
 ```
 
-You need two instances of each pod. One is the base instance you get as you start the turn. You need to keep this information so that you
-can reset to it after every search-run. The other is the evolving pod that changes during the search.
+You need two instances of each pod. One is the base instance you get as you update using the turn-input. You need to keep this information
+so that you can reset to it after every search-run. The other is the evolving pod that changes during the search.
 
 There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods
 that looks somewhat like this:
@@ -116,4 +138,59 @@ The UCB formula that is used on child selection looks like this:
 float ucb = (score / (visits_of_child * scaleParameter)) + Sqrt(Log(visits of parent)) * (1/Sqrt(visits_of_child);
 ```
 
+Why does this work at all?
 
+The first few search iterations every pod will select nodes randomly, or just very badly. That means all evaluations are relatively bad and
+untrustworthy. At some point, pods will start "discovering" better moves. This will lead to several things happening. 
+
+1) Your better moves will be evaluated as better moves, meaning they are more likely to be picked next time (by UCB formula)
+2) The parts of the evaluation that contain opponent state information (travelled distance and such) will be scored more accurately
+3) Because of better opponent prediction, your own moves are scored more accurately.
+
+This has great potential for convergence to an optimal series of moves for all pods. If player 1's runner pod has found a good path, player
+2's blocker pod will converge to moves that best counter this path, which will lead to player 1's runner adjusting its path, which means
+the blocker will adjust again... etcetera. 
+
+Since we use exploration and expansion by UCB, all moves are evaluated statistically. Your opponent is more likely to pick its best moves
+and you are more likely to pick yours. However, if some unlikely move is a great counter to the current best opponent path, the exploration
+part of your search will soon pick it up and multiple succesful iterations will cause the opponent to "rethink" its best path. As with
+every search, the more calculation time you have, the better this search will converge. With Smitsimax, you can freely select your
+simulation depth. If you set the depth too high, your search can never converge. You will end up using random moves, or too few moves in
+the last few depth levels. However, because of UCB, you will not need to explore the entire searchspace, like you would with (non-pruned)
+minimax. The exploration and expansion will focus on interesting parts of the tree and you can get much deeper than you would expect. My 
+CSB bot currently uses roughly 60k simulations per turn where my rivals in the top 10 use over a million for the same depth of search. I
+can only  imagine how well this bot will perform once it is properly optimized. 
+
+
+What are the advantages and limitations of this approach?
+
+Advantages
+
+-Maximum quality opponent prediction. The opponent prediction has the same quality as your own search, since everything is symmetric
+between you and your opponent. Genetic algorithms don't share this feature and minimax might be less effective at this.
+
+-Quick convergence: Relatively few sims needed for a reliable result.
+
+-Potential for emergent behavior. An example of this is seen in my CSB blocker-pod. I currently have it set to try to reduce the opponent
+travelled distance, but it also gets more score if my runner pod travels farther. This sometimes leads to my blocker using its shield to
+boost my runner ahead. My runner and blocker each have their own tree, but they share goals in the evaluation, which tends to make them
+cooperate.
+
+-Few heuristics needed. In the evaluation you merely have to give "score" for what you want to achieve and you dont have to specify how to
+achieve it. The possible moves are decided when creating children on the nodes and if done right, will be selected to achieve the best
+score. If you have some experience using this search, you can quickly code a usable bot.
+
+Limitations
+
+-Because gamestates that correspond to a node are not uniquely determined (the opponent may do different things) this search might not be
+possible for many types of games. For example, if a game allows 4 types of moves: A, B, C and D and if in some situations caused by the
+opponent,  move C is illegal, this search will not work. The allowed moves have to be independent of opponents choices. This is the case in
+CSB, as you can always thrust, steer and shield, no matter what the opponent does. The same was true for Code of Kutulu, another codingame
+arena. In that game you always knew which way your explorer character could travel, no matter what the opponent did (excluding the "yell"
+ability). 
+
+-It is hard to use heuristics as part of the search, because you really dont know what is going to happen until after you finish your sim
+and even then, things will be different on the next iteration. You lean heavily on the evaluation score telling your pods what is good and
+what is bad. For example, you can't have a node select its children to "steer away to the right if it sees a blocker on the left". In one
+particular iteration of the search, there could be a blocker on the left, but next time when you get to this node, there might not be. Only
+statistics and evaluation will help you here.
