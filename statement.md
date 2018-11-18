@@ -68,7 +68,7 @@ The tree consists of nodes and each node in the tree needs the following things:
     }
  
     The Search method looks like this:
-    
+    ```C#
     void Search()
         {
             CreateRootNodes() // create 4 nodes, one for each tree. These are also the "current" nodes of the sim.
@@ -111,6 +111,7 @@ The tree consists of nodes and each node in the tree needs the following things:
             }
 
         }
+        ```
     
     
 
