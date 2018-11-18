@@ -27,31 +27,31 @@ can reset to it after every search-run. The other is the evolving pod that chang
 There are various ways to set up your simulation and Smitsimax-search. I currently use a static Sim class with 4 variables and 4 methods
 that looks somewhat like this:
 
-    static class Sim
-    {
-    Pods[4]  
-    // all 4 pods that will be simulated
-        Node[4] current  
-        // 4 current nodes, one for each pod. You start with root nodes.
-        float[4] lowestscore 
-        // the lowest score earned by the tree, one for each pod.
-        float[4] highestscore 
-        // the highest score earned by the tree, one for each pod.
-        float[4] scaleparameter  
-        // the scaleparameter calculated by subtracting the lowest score from the highest. This is needed for the UCB formula.
-        
-        void Reset()   
-        // To reset the sim after search
-        
-        void Search() 
-        // The important bit, the actual search
-        
-        void Play() 
-        // a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
-        
-        void BackPropagate() 
-        // each tree has the score result backpropagated along the branch of the tree.
-    }
+static class Sim
+{
+Pods[4]  
+// all 4 pods that will be simulated
+    Node[4] current  
+    // 4 current nodes, one for each pod. You start with root nodes.
+    float[4] lowestscore 
+    // the lowest score earned by the tree, one for each pod.
+    float[4] highestscore 
+    // the highest score earned by the tree, one for each pod.
+    float[4] scaleparameter  
+    // the scaleparameter calculated by subtracting the lowest score from the highest. This is needed for the UCB formula.
+    
+    void Reset()   
+    // To reset the sim after search
+    
+    void Search() 
+    // The important bit, the actual search
+    
+    void Play() 
+    // a CSB specific algorithm that handles movement and collisions (see Magus CSB postmortem)
+    
+    void BackPropagate() 
+    // each tree has the score result backpropagated along the branch of the tree.
+}
 
     
 The tree consists of nodes and each node in the tree needs the following things:
@@ -71,50 +71,50 @@ The tree consists of nodes and each node in the tree needs the following things:
  
 
 The Search method looks like this:
-    ```C#
-    void Search()
+```C#
+void Search()
+    {
+        CreateRootNodes() // create 4 nodes, one for each tree. These are also the "current" nodes of the sim.
+
+        while (we still have calculation time left)
         {
-            CreateRootNodes() // create 4 nodes, one for each tree. These are also the "current" nodes of the sim.
+            Reset() // reset the sim using the pod instances you obtained during the update
+            int depth = 0;
 
-            while (we still have calculation time left)
+            while (depth < SIMULATION_DEPTH)
             {
-                Reset() // reset the sim using the pod instances you obtained during the update
-                int depth = 0;
-
-                while (depth < SIMULATION_DEPTH)
-                {
-                    for (each pod, 4 times total)
-                    {
-                        Node node = current[i];
-
-                        if (node.visits == 1)
-                            node.MakeChildren() // give the node children if it doesnt have them, all possible moves you want to allow
-
-                        Node child = node.Select() // select a node that you want to use for the sim. At first it is best to random a few times. I currently random 10 times. After this I use the UCB formula to select a child. 
-
-                        child.visits++;
-
-                        current[i] = child; // the child becomes the current node
-
-                        pod.ApplyMove // do the stuff the nodes tell you to do (rotate, accelerate, shield etc.)
-                    }
-
-                    Play(); // Simulate what actually happens, including movement and collisions
-                    depth++;
-                }
-                
-                float[4] score = GetScore(); // get a score for each pod when the simulation depth is reach
-
                 for (each pod, 4 times total)
                 {
-                    update the lowest score, highest score and scaleparameter for this pod. 
+                    Node node = current[i];
+
+                    if (node.visits == 1)
+                        node.MakeChildren() // give the node children if it doesnt have them, all possible moves you want to allow
+
+                    Node child = node.Select() // select a node that you want to use for the sim. At first it is best to random a few times. I currently random 10 times. After this I use the UCB formula to select a child. 
+
+                    child.visits++;
+
+                    current[i] = child; // the child becomes the current node
+
+                    pod.ApplyMove // do the stuff the nodes tell you to do (rotate, accelerate, shield etc.)
                 }
 
-                Backpropagate() // We go up the tree back to the root node, adding the score to each node. We do this for each pod (4x)
+                Play(); // Simulate what actually happens, including movement and collisions
+                depth++;
+            }
+            
+            float[4] score = GetScore(); // get a score for each pod when the simulation depth is reach
+
+            for (each pod, 4 times total)
+            {
+                update the lowest score, highest score and scaleparameter for this pod. 
             }
 
+            Backpropagate() // We go up the tree back to the root node, adding the score to each node. We do this for each pod (4x)
         }
-        ```
+
+    }
+```
     
     
 
