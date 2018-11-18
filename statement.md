@@ -174,7 +174,7 @@ searchspace, like you would with (non-pruned) minimax. The exploration and expan
 can get much deeper than you would expect. My CSB bot currently uses roughly 60k simulations per turn where my rivals in the top 10 use
 over a million for the same depth of search. I can only imagine how well this bot will perform once it is properly optimized. 
 
-## What are the advantages and limitations of this approach?
+## What are the advantages and limitations of Smitsimax?
 
 ### Advantages
 
