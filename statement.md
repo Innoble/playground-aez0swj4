@@ -79,6 +79,7 @@ static class Sim
     void BackPropagate()  // each tree has the score result backpropagated along the branch of the tree.
 }
 ```
+_NOTE: I have changed my CSB bot to no longer use the lowestscore/highescore normalization method as it was kind of heavy. It makes sense to start with something like this though._
     
 The tree consists of nodes and each node in the tree needs the following things:
     
