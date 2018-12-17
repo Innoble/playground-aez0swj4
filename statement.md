@@ -15,6 +15,10 @@ is where my use of the UCB formula comes from. *Disclaimer: I am not completely 
 if it doesn't, I have coined the name "Smitsimax" , more as joke than anything else. If anyone is more versed in search algorithms and
 knows its true name, do let me know.*
 
+EDIT: It has been pointed out to me that a similar algorithm is described here: 
+https://www.researchgate.net/publication/224396568_CadiaPlayer_A_Simulation-Based_General_Game_Player
+You're free to keep calling it Smitsimax, because it is a much used name for it on CG. I just can't claim credit for something someone else invented earlier (even though I did not know). 
+
 CSB is a two player zero sum game where both players have two racing pods. The zero-sum nature makes  minimax a natural 
 choice as a search algorithm. The main problem is the simultaneous nature of the game. Both players decide what to do simultaneously and
 after this, the turn is calculated. The basic version of minimax requires players to move one after the other, knowing what the other
